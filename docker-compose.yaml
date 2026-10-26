@@ -1,0 +1,33 @@
+services:
+  db:
+    image: mysql:8.4.7
+    environment:
+      MYSQL_DATABASE: railway
+      MYSQL_USER: railwayuser
+      MYSQL_PASSWORD: railpass123
+      MYSQL_ROOT_PASSWORD: rootpass123
+    volumes:
+      - railway_data:/var/lib/mysql
+      - ./railway.sql:/docker-entrypoint-initdb.d/railway.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-prootpass123"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build: .
+    image: railbooker:v1.0.0
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: db
+      DB_NAME: railway
+      DB_USER: railwayuser
+      DB_PASSWORD: railpass123
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  railway_data:

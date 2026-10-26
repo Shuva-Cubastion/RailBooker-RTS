@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: railbooker-config
+  namespace: railbooker
+data:
+  DB_HOST: "railway-mysql.database.svc.cluster.local"
+  DB_NAME: "railway"
+  DB_USER: "railwayuser"

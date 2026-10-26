@@ -1,0 +1,20 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: railbooker
+  namespace: argocd
+spec:
+  description: RailBooker Kubernetes application
+  sourceRepos:
+    - https://github.com/Shuva-Cubastion/RailBooker-RTS.git
+  destinations:
+    - namespace: railbooker
+      server: https://kubernetes.default.svc
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+

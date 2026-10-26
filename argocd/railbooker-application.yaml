@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: railbooker
+  namespace: argocd
+spec:
+  project: railbooker
+
+  source:
+    repoURL: https://github.com/Shuva-Cubastion/RailBooker-RTS.git
+    targetRevision: HEAD
+    path: k8s/railbooker
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: railbooker
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

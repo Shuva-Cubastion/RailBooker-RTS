@@ -1,13 +1,16 @@
 <?php
-// Database connection
-$host = 'localhost';
-$username = 'root';  
-$password = '';      
-$database = 'railway';
+$host = getenv('DB_HOST') ?: 'localhost';
+$username = getenv('DB_USER') ?: 'root';
+$password = getenv('DB_PASSWORD') ?: '';
+$database = getenv('DB_NAME') ?: 'railway';
 
 $conn = mysqli_connect($host, $username, $password, $database);
+
 if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+    error_log("Database connection failed: " . mysqli_connect_error());
+    http_response_code(500);
+    die("Database connection failed.");
 }
+
 session_start();
 ?>

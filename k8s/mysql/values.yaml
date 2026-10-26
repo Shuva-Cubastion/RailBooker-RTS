@@ -1,0 +1,48 @@
+architecture: standalone
+
+auth:
+  existingSecret: mysql-auth
+  createDatabase: true
+  database: railway
+  username: railwayuser
+
+initdbScriptsConfigMap: ""
+
+primary:
+  persistence:
+    enabled: true
+    storageClass: local-path
+    size: 5Gi
+
+  customStartupProbe:
+    exec:
+      command:
+        - /bin/bash
+        - -ec
+        - mysqladmin ping --silent
+    failureThreshold: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+
+  customReadinessProbe:
+    exec:
+      command:
+        - /bin/bash
+        - -ec
+        - mysqladmin ping --silent
+    failureThreshold: 3
+    periodSeconds: 10
+    timeoutSeconds: 5
+
+  customLivenessProbe:
+    exec:
+      command:
+        - /bin/bash
+        - -ec
+        - mysqladmin ping --silent
+    failureThreshold: 3
+    periodSeconds: 10
+    timeoutSeconds: 5
+
+networkPolicy:
+  enabled: false
