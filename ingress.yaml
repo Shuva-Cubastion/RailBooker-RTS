@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: railbooker-ingress
+  namespace: railbooker
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: railbooker.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: railbooker
+                port:
+                  number: 80
